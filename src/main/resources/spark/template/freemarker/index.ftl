@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
 <head>
   <#include "header.ftl">
 </head>
@@ -50,7 +50,6 @@
     Please do work through the Getting Started guide, even if you do know how to build such an application.  The guide covers the basics of working with Heroku, and will familiarize you with all the concepts you need in order to build and deploy your own apps.
   </div>
 </div>
-
-
+<p>I can add: {{ 1+2 }}.</p>
 </body>
 </html>
