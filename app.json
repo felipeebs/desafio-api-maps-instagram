@@ -1,0 +1,6 @@
+{
+  "name": "Desafio - Inegração de APIs",
+  "description": "Um app para integrar a API de locaização do Google Maps com a busca de imagens do Instagram",
+  "image": "heroku/java",
+  "addons": [ "heroku-postgresql" ]
+}
