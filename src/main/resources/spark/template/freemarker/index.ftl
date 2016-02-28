@@ -1,55 +1,84 @@
 <!DOCTYPE html>
 <html ng-app>
-<head>
-  <#include "header.ftl">
-</head>
+    <head>
+        <#include "header.ftl">
+    </head>
 
-<body>
+    <body>
 
   <#include "nav.ftl">
 
-<div class="jumbotron text-center">
-  <div class="container">
-    <a href="/" class="lang-logo">
-      <img src="/lang-logo.png">
-    </a>
-    <h1>Getting Started with Java on Heroku</h1>
-    <p>This is a sample Java application deployed to Heroku. It's a reasonably simple app - but a good foundation for understanding how to get the most out of the Heroku platform.</p>
-    <a type="button" class="btn btn-lg btn-default" href="https://devcenter.heroku.com/articles/getting-started-with-java"><span class="glyphicon glyphicon-flash"></span> Getting Started with Java</a>
-    <a type="button" class="btn btn-lg btn-primary" href="https://github.com/heroku/java-getting-started"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
-  </div>
-</div>
-<div class="container">
-  <div class="alert alert-info text-center" role="alert">
-    To deploy your own copy, and learn the fundamentals of the Heroku platform, head over to the <a href="https://devcenter.heroku.com/articles/getting-started-with-java" class="alert-link">Getting Started with Java on Heroku</a> tutorial.
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-info-sign"></span> How this sample app works</h3>
-      <ul>
-        <li>This app was deployed to Heroku, either using Git or by using <a href="https://github.com/heroku/java-getting-started">Heroku Button</a> on the repository.</li>
+        <div id="map"></div>
+        <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+        <script>
+            var map;
+            var markers = [];
+            function initMap() {
+                //TODO: mexer nos controles
+                var mapDiv = document.getElementById('map');
+                var mapOpts = {
+                    center: new google.maps.LatLng(-8.06, -34.88),
+                    zoom: 14
+                };
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                        map.setCenter(initialLocation);
+                    });
+                }
+                map = new google.maps.Map(mapDiv, mapOpts);
 
-        <li>When Heroku received the source code, it grabbed all the dependencies in the <a href="https://github.com/heroku/java-getting-started/blob/master/pom.xml">pom.xml</a>.</li>
-        <li>The platform then spins up a dyno, a lightweight container that provides an isolated environment in which the slug can be mounted and executed.</li>
-        <li>You can scale your app, manage it, and deploy over <a href="https://addons.heroku.com/">150 add-on services</a>, from the Dashboard or CLI.</li>
-        <li>Check out the <a href="https://devcenter.heroku.com/articles/getting-started-with-java">Getting Started</a> guide to learn more!</li>
-      </ul>
-    </div>
-    <div class="col-md-6">
-      <h3><span class="glyphicon glyphicon-link"></span> Helpful Links</h3>
-      <ul>
-        <li><a href="https://www.heroku.com/home">Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/">Heroku Dev Center</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/getting-started-with-java">Getting Started with Java on Heroku</a></li>
-        <li><a href="https://devcenter.heroku.com/articles/deploying-java">Deploying Java Apps on Heroku</a></li>
-      </ul>
-    </div>
-  </div> <!-- row -->
-   <div class="alert alert-info text-center" role="alert">
-    Please do work through the Getting Started guide, even if you do know how to build such an application.  The guide covers the basics of working with Heroku, and will familiarize you with all the concepts you need in order to build and deploy your own apps.
-  </div>
-</div>
-<p>I can add: {{ 1+2 }}.</p>
-</body>
-</html>
+                map.addListener('click', function(event) {
+                    placeMarker(event.latLng);
+                });
+            }
+            function placeMarker(location) {
+                var marker = new google.maps.Marker({
+                    position: location, 
+                    map: map
+                });
+                map.setCenter(location);
+                markers.push(marker);
+                //TODO: abaixar tela de loading
+                //TODO: chamar ajax instagram
+            }
+            function drawCircle(location) {
+                /*
+                //https://developers.google.com/maps/documentation/javascript/examples/marker-remove
+                var circle = new google.maps.Circle({
+                  strokeColor: '#006600',
+                  strokeOpacity: 0.6,
+                  strokeWeight: 2,
+                  fillColor: '#006600',
+                  fillOpacity: 0.3,
+                  map: map,
+                  center: markers[0].getPosition(),
+                  radius: 1000
+                });*/
+            }
+
+            // Sets the map on all markers in the array.
+            function setMapOnAll(map) {
+                markers.foreach(function(marker) {
+                    marker.setMap(map);
+                })
+            }
+            // Removes the markers from the map, but keeps them in the array.
+            function clearMarkers() {
+                setMapOnAll(null);
+            }
+
+            // Shows any markers currently in the array.
+            function showMarkers() {
+                setMapOnAll(map);
+            }
+
+            // Deletes all markers in the array by removing references to them.
+            function deleteMarkers() {
+                clearMarkers();
+                markers = [];
+            }
+        </script>
+
+        </body>
+    </html>

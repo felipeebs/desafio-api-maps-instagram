@@ -3,14 +3,8 @@ import com.heroku.sdk.jdbc.DatabaseUrl;
 import java.net.URISyntaxException;
 import org.sql2o.Sql2o;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
+ * Singleton para acesso ao banco de dados via Sql2o
  * @author Bunto
  */
 public final class DB {
