@@ -1,84 +1,88 @@
 <!DOCTYPE html>
 <html ng-app>
-    <head>
-        <#include "header.ftl">
-    </head>
+<head>
+    <#include "header.ftl">
+</head>
 
-    <body>
+<body ng-app="mapSearch" ng-controller="MapSearchController as ms">
 
   <#include "nav.ftl">
 
-        <div id="map"></div>
-        <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
-        <script>
-            var map;
-            var markers = [];
-            function initMap() {
-                //TODO: mexer nos controles
-                var mapDiv = document.getElementById('map');
-                var mapOpts = {
-                    center: new google.maps.LatLng(-8.06, -34.88),
-                    zoom: 14
-                };
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                        map.setCenter(initialLocation);
-                    });
-                }
-                map = new google.maps.Map(mapDiv, mapOpts);
+  <div id="map"></div>
+  <script>
+    //TODO: Mover este bloco para um js separado
+    var map;
+    var circle;
+    var markers = [];
+    function initMap() {
+        //TODO: mexer nos controles
+        //TODO: Observar http://www.gramfeed.com/instagram/map#/37.7749,-122.4194/1000/-
+        var mapDiv = document.getElementById('map');
+        var mapOpts = {
+            center: new google.maps.LatLng(-8.06, -34.88), // Fallback - centralizar mapa no recife antigo
+            zoom: 14
+        };
+        //Solicitar localizaçã odo navegador
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(initialLocation);
+            });
+        }
 
-                map.addListener('click', function(event) {
-                    placeMarker(event.latLng);
-                });
-            }
-            function placeMarker(location) {
-                var marker = new google.maps.Marker({
-                    position: location, 
-                    map: map
-                });
-                map.setCenter(location);
-                markers.push(marker);
-                //TODO: abaixar tela de loading
-                //TODO: chamar ajax instagram
-            }
-            function drawCircle(location) {
-                /*
-                //https://developers.google.com/maps/documentation/javascript/examples/marker-remove
-                var circle = new google.maps.Circle({
-                  strokeColor: '#006600',
-                  strokeOpacity: 0.6,
-                  strokeWeight: 2,
-                  fillColor: '#006600',
-                  fillOpacity: 0.3,
-                  map: map,
-                  center: markers[0].getPosition(),
-                  radius: 1000
-                });*/
-            }
+        map = new google.maps.Map(mapDiv, mapOpts);
 
-            // Sets the map on all markers in the array.
-            function setMapOnAll(map) {
-                markers.foreach(function(marker) {
-                    marker.setMap(map);
-                })
-            }
-            // Removes the markers from the map, but keeps them in the array.
-            function clearMarkers() {
-                setMapOnAll(null);
-            }
+        map.addListener('click', function(event) {
+            placeMarker(event.latLng);
+        });
+    }
+    function placeMarker(location) {
+        var marker = new google.maps.Marker({
+            position: location, 
+            map: map
+        });
+        map.setCenter(location);
+        markers.push(marker);
+        //TODO: abaixar tela de loading
+        //TODO: chamar ajax instagram
+    }
+    function drawCircle(location) {
+        /*
+        //https://develosetMap(map)pers.google.com/maps/documentation/javascript/examples/marker-remove
+        circle.setMap(null);
+        circle = new google.maps.Circle({
+            strokeColor: '#006600',
+            strokeOpacity: 0.6,
+            strokeWeight: 2,
+            fillColor: '#006600',
+            fillOpacity: 0.3,
+            map: map,
+            center: markers[0].getPosition(),
+            radius: 1000
+      });*/
+    }
 
-            // Shows any markers currently in the array.
-            function showMarkers() {
-                setMapOnAll(map);
-            }
+    // Sets the map on all markers in the array.
+    function setMapOnAll(map) {
+        markers.foreach(function(marker) {
+            marker.setMap(map);
+        })
+    }
+    // Removes the markers from the map, but keeps them in the array.
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
 
-            // Deletes all markers in the array by removing references to them.
-            function deleteMarkers() {
-                clearMarkers();
-                markers = [];
-            }
-        </script>
+    // Shows any markers currently in the array.
+    function showMarkers() {
+        setMapOnAll(map);
+    }
 
-        </body>
-    </html>
+    // Deletes all markers in the array by removing references to them.
+    function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+    }
+  </script>
+</body>
+</html>
