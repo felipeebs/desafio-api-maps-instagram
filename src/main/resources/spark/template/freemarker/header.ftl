@@ -5,6 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.min.js"></script>
 
 <!--<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>-->
+<script src="/js/angular-ui-router.min.js"></script>
 <script src="/js/app.js"></script>
 <script src="/js/controller.js"></script>
 <!--<script src="/js/main.js"></script>-->
