@@ -1,12 +1,12 @@
 (function() {
-	var app = angular.module('map', ['ngResource']);
+	var app = angular.module('map', ['ngResource', 'ngRoute']);
 
 	app.controller('MapController', ['$scope', '$http', '$resource', function($scope, $http, $resource){
 		$http.defaults.useXDomain = true;
 		var search_url = 'https://api.instagram.com/v1/media/';
 		var client_id = '7c37aa0576f344fda37cc3330d424e1f';
 		
-		$scope._access_token = '6678174.467ede5.205a03ebc4b74d4082823781c3149575';
+		$scope._access_token = '6678174.467ede5.205a03ebc4b74d4082823781c3149575'; //limpar
 		$scope._picList = [];
 
 		var instagramData = $resource(search_url, null, {
@@ -24,6 +24,9 @@
 				isArray: true
 			}
 		});
+		$scope.getToken = function() {
+
+		}
 		$scope.executeSearch = function (_lat, _lng, _distance) {
 			console.log('Iniciando consulta: '+_lat+', '+_lng+', '+_distance);
 			/*var pics = instagramData.search({lat: _lat, lng: _lng, distance: _distance}, function() {
@@ -43,4 +46,48 @@
 			//console.log(pics);
 		};
 	}]);
+
+	app..factory("InstagramService", function ($rootScope, $location, $http) {
+	    var client_id = "7c37aa0576f344fda37cc3330d424e1f";
+
+	    var service = {
+	        _access_token: null,
+	        access_token: function(newToken) {
+	            if(angular.isDefined(newToken)) {
+	                this._access_token = newToken;
+	            }
+	            return this._access_token;
+	        },
+	        login: function () {
+	            var igPopup = window.open("https://instagram.com/oauth/authorize/?client_id=" + client_id +
+	                "&redirect_uri=" + $location.absUrl().split('#')[0] +
+	                "&response_type=token", "igPopup");
+	        }
+	    };
+
+	    $rootScope.$on("igAccessTokenObtained", function (evt, args) {
+	        service.access_token(args.access_token);
+	        console.log('Token: '+service.access_token);
+	    });
+
+	    return service;
+
+	});
+
+	app.config(function ($stateProvider) {
+	    $stateProvider.
+	        state('oauthsuccess', {
+	            url: "/access_token={access_token}",
+	            templateUrl: '/Partials/OAuth.html',
+	            controller: 'OAuthLoginController'
+	        });
+	});
+
+	app.controller("OAuthLoginController", function ($scope, $stateParams, $window, $state) {
+	    var $parentScope = $window.opener.angular.element(window.opener.document).scope();
+	    if (angular.isDefined($stateParams.access_token)) {
+	        $parentScope.$broadcast("igAccessTokenObtained", { access_token: $stateParams.access_token })
+	    }
+	    $window.close();
+	});
 })();
