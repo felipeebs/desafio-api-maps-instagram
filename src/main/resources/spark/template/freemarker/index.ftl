@@ -8,15 +8,37 @@
 
     <#include "nav.ftl">
 
-    <div ng-controller="MapController">
-        <button ng-click="InstagramService.login()">Login</button>
-        <button ng-click="executeSearch('48.858844','2.294351','1000')"> Search </button>
-        <div id="map"></div>
-        <div class="container-fluid">
-            <ul class="list-group">
-                <li class="list-group-item" ng-repeat="pic in pics">{{pic.link}} - {{pic.user}} - {{pic.id}}</li>
-            </ul>
+<div ng-controller="MapController">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-3 map-container">
+                <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events">
+                    <ui-gmap-marker ng-if="marker.coords" coords="marker.coords" idkey="marker.id"></ui-gmap-marker>
+                </ui-gmap-google-map>
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <div class="row">
+                    <div class="col-xs-6 col-md-3" ng-repeat="pic in pics">
+                        <div class="thumbnail">
+                            <a href="{{pic.link}}">
+                                <img ng-src="{{pic.images.thumbnail.url}}" />
+                            </a>
+                            <div class="caption">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <img class="profile-picture media-object" ng-src="{{pic.user.profile_picture}}" title="{{pic.user.username}}" height="50" width="50" />
+                                    </div>
+                                    <div class="media-body">
+                                        <strong>{{pic.user.full_name}}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 </body>
 </html>

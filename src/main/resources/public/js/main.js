@@ -1,10 +1,10 @@
 //TODO: Mover este bloco para um js separado
 var map;
 var circle;
-var markers = [];
+var marker;
 function initMap() {
     //TODO: mexer nos controles
-    //TODO: Observar http://www.gramfeed.com/instagram/map#/37.7749,-122.4194/1000/-
+    //TODO: Observar http://www.gramfeed.com/instagram/map#/-8.0611,-34.8717/1000/-
     var mapDiv = document.getElementById('map');
     var mapOpts = {
         center: new google.maps.LatLng(-8.06, -34.88), // Fallback - centralizar mapa no recife antigo
@@ -18,11 +18,11 @@ function initMap() {
         });
     }
 
-    //map = new google.maps.Map(mapDiv, mapOpts);
+    map = new google.maps.Map(mapDiv, mapOpts);
 
-    /*map.addListener('click', function(event) {
+    map.addListener('click', function(event) {
         placeMarker(event.latLng);
-    });*/
+    });
 }
 function placeMarker(location) {
     var marker = new google.maps.Marker({
@@ -30,7 +30,7 @@ function placeMarker(location) {
         map: map
     });
     map.setCenter(location);
-    markers.push(marker);
+    marker = marker;
     //TODO: abaixar tela de loading
     //TODO: chamar ajax instagram
 }
