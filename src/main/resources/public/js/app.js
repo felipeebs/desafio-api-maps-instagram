@@ -54,6 +54,14 @@
 					access_token: $scope._access_token,
 					callback: 'JSON_CALLBACK'
 				}
+			},
+			media: {
+				method: 'JSONP',
+				params: {
+					action: '@id',
+					access_token: $scope._access_token,
+					callback: 'JSON_CALLBACK'
+				}
 			}
 		});
 

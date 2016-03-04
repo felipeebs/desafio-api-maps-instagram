@@ -22,11 +22,11 @@ public class Main {
         });
 
         get("/", (req, res) -> {
-            Session session = req.session(true);
+            //Session session = req.session(true);
             Map<String, Object> attributes = new HashMap<>();
-            if (!session.isNew()) {
+            /*if (!session.isNew()) {
                 attributes.put("token", session.attribute("token"));
-            }
+            }*/
             //attributes.put("token", "token aqui");
 
             return new ModelAndView(attributes, "index.ftl");
