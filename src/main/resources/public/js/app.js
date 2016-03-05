@@ -1,7 +1,7 @@
 (function() {
 	var app = angular.module('map', ['ngResource', 'uiGmapgoogle-maps']);
 
-	app.controller('MapController', ['$scope', '$resource', 'uiGmapIsReady', 'instagramService', function($scope, $resource, uiGmapIsReady, instagramService){
+	app.controller('MapController', ['$scope', 'uiGmapIsReady', 'instagramService', function($scope, uiGmapIsReady, instagramService){
 
 		// Inicialização de variáveis de escopo
 		$scope.pics = [];
