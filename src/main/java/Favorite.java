@@ -9,7 +9,7 @@ import org.sql2o.Connection;
  */
 public class Favorite {
     private long userId;
-    private long mediaId;
+    private String mediaId;
     private String title;
     private String comment;
 
@@ -21,11 +21,11 @@ public class Favorite {
         this.userId = userId;
     }
 
-    public long getMediaId() {
+    public String getMediaId() {
         return mediaId;
     }
 
-    public void setMediaId(long mediaId) {
+    public void setMediaId(String mediaId) {
         this.mediaId = mediaId;
     }
 
