@@ -1,3 +1,4 @@
+import com.heroku.sdk.jdbc.DatabaseUrl;
 import java.util.HashMap;
 import java.util.Map;
 import static spark.Spark.*;
@@ -26,19 +27,21 @@ public class Main {
         });
 
         get("/", (req, res) -> {
-            //Session session = req.session(true);
             Map<String, Object> attributes = new HashMap<>();
-            /*if (!session.isNew()) {
-                attributes.put("token", session.attribute("token"));
-            }*/
-            //attributes.put("token", "token aqui");
-
             return new ModelAndView(attributes, "index.ftl");
         }, new FreeMarkerEngine());
 
         get("/user/:userId/favorites", "application/json", (req, res) -> {
             long id = Long.valueOf(req.params(":userId"));
-            return Favorite.getAllByUser(id);
+            //return Favorite.getAllByUser(id);
+            Map<String, String> m = new HashMap<String, String>();
+            try {
+                m.put("url", DatabaseUrl.extract().jdbcUrl());
+                return m;
+            } catch (Exception e) {
+                e.printStackTrace(System.err);
+            }
+            return m;
         }, new JsonTransformer());
     }
 
