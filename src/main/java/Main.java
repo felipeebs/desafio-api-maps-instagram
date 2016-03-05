@@ -36,8 +36,9 @@ public class Main {
             try {
                 return Favorite.getAllByUser(id);
             } catch (Exception e) {
-                return e;
+                e.printStackTrace(System.err);
             }
+            return null;
         }, new JsonTransformer());
     }
 
