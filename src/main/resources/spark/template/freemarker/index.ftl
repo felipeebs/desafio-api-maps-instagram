@@ -9,7 +9,7 @@
 
     <#include "nav.ftl">
 
-<div ng-controller="MapController">
+<div ng-controller="AppController">
     <div class="container-fluid">
         <div class="row">
             <div id="map-container" class="col-xs-4">
