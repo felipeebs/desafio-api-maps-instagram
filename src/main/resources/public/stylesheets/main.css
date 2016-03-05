@@ -16,3 +16,16 @@
 .profile-picture:hover {
     border-radius: 0;
 }
+.thumbnail>img {
+    position: relative;
+}
+.overlay {
+    display: block;
+    position:absolute;
+    background-color:#000;
+    color: gold;
+    opacity: 0.80;
+    top: 4px;
+    text-align: right;
+    padding: 5px;
+}

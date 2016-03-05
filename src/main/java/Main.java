@@ -36,9 +36,10 @@ public class Main {
             return new ModelAndView(attributes, "index.ftl");
         }, new FreeMarkerEngine());
 
-        get("/user", (req, res) -> {
-            return "Hello Heroku!";
-        });
+        get("/user/:userId/favorites", "application/json", (req, res) -> {
+            long id = Long.valueOf(req.params(":userId"));
+            return Favorite.getAllByUser(id);
+        }, new JsonTransformer());
     }
 
 }

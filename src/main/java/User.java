@@ -3,7 +3,7 @@ import java.util.List;
 import org.sql2o.Connection;
 
 /**
- * POJO auxiliar para Sql2o
+ * POJO auxiliar para Sql2o da tabela users
  * @author Felipe.S
  */
 public class User {

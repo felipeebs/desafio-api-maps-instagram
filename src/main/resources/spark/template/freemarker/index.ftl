@@ -23,6 +23,9 @@
                             <a href="{{pic.link}}">
                                 <img ng-src="{{pic.images.thumbnail.url}}" />
                             </a>
+                            <div class="overlay">
+                                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            </div>
                             <div class="caption">
                                 <div class="media">
                                     <div class="media-left">
