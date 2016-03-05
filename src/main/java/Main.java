@@ -7,7 +7,7 @@ import spark.Session;
 import static spark.Spark.get;
 
 /**
- * Classe principal para lidar cm requisições do Spark
+ * Classe principal para lidar cm requisicoes do Spark
  * @author Felipe.S
  */
 public class Main {
