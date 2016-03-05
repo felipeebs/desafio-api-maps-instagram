@@ -12,14 +12,14 @@
 <div ng-controller="MapController">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-12 col-md-3 map-container">
+            <div id="map-container" class="col-xs-4">
                 <ui-gmap-google-map center='map.center' zoom='map.zoom' events="map.events">
                     <ui-gmap-marker ng-if="marker.coords" coords="marker.coords" idkey="marker.id"></ui-gmap-marker>
                 </ui-gmap-google-map>
             </div>
-            <div class="col-xs-12 col-md-9">
+            <div class="col-xs-8">
                 <div class="row">
-                    <div class="col-xs-6 col-md-3" ng-repeat="pic in pics">
+                    <div class="col-xs-3" ng-repeat="pic in pics">
                         <div class="thumbnail">
                             <a href="{{pic.link}}">
                                 <img ng-src="{{pic.images.thumbnail.url}}" />

@@ -1,7 +1,7 @@
 (function() {
 	var app = angular.module('map', ['ngResource', 'uiGmapgoogle-maps']);
 
-	app.controller('MapController', ['$scope', '$http', '$resource', 'uiGmapIsReady', function($scope, $http, $resource, uiGmapIsReady){
+	app.controller('MapController', ['$scope', '$resource', 'uiGmapIsReady', 'instagramService', function($scope, $resource, uiGmapIsReady, instagramService){
 
 		// Inicialização de variáveis de escopo
 		$scope.pics = [];
@@ -56,6 +56,37 @@
 			$scope.$apply();
 		}
 
+		// Executa a busca por fotos nas coordenadas recebidas
+		$scope.executeSearch = function (lat, lng, distance) {
+			//TODO: mostrar loading
+			$scope.searchParams.lat = lat;
+			$scope.searchParams.lng = lng;
+			$scope.searchParams.distance = distance;
+			$scope.searchParams.max_timestamp = '';
+			instagramService.search($scope.searchParams, function(response) {
+				$scope.pics = [];
+				$scope.pics = response.data;
+				// Verifica possibilidade de haver mais fotos nessas coordenadas e atualiza parâmetros
+				$scope.hasMore = response.data.length == 20;
+				$scope.searchParams.max_timestamp = response.data[response.data.length-1].created_time-100;
+				//TODO: esconder loading
+			});
+		};
+
+		// Executa a busca com os parâmetros atuais
+		$scope.loadMore = function () {
+			instagramService.search($scope.searchParams, function(response) {
+				angular.forEach(response.data, function(pic) {
+					$scope.pics.push(pic);
+				});
+				// Verifica possibilidade de haver mais fotos nessas coordenadas e novamente atualiza parâmetros
+				$scope.hasMore = response.data.length == 20;
+				$scope.searchParams.max_timestamp = response.data[response.data.length-1].created_time-100;
+			});
+		};
+	}]);
+
+	app.factory('instagramService', function ($resource){
 		// Resource para pesquisar na API do Instagram
 		var access_token = '6678174.467ede5.205a03ebc4b74d4082823781c3149575';
 		var instagramData = $resource('https://api.instagram.com/v1/media/:action', null, {
@@ -81,34 +112,6 @@
 				}
 			}
 		});
-
-		// Executa a busca por fotos nas coordenadas recebidas
-		$scope.executeSearch = function (lat, lng, distance) {
-			//TODO: mostrar loading
-			$scope.searchParams.lat = lat;
-			$scope.searchParams.lng = lng;
-			$scope.searchParams.distance = distance;
-			$scope.searchParams.max_timestamp = '';
-			instagramData.search($scope.searchParams, function(response) {
-				$scope.pics = [];
-				$scope.pics = response.data;
-				// Verifica possibilidade de haver mais fotos nessas coordenadas e atualiza parâmetros
-				$scope.hasMore = response.data.length == 20;
-				$scope.searchParams.max_timestamp = response.data[response.data.length-1].created_time-100;
-				//TODO: esconder loading
-			});
-		};
-
-		// Executa a busca com os parâmetros atuais
-		$scope.loadMore = function () {
-			instagramData.search($scope.searchParams, function(response) {
-				angular.forEach(response.data, function(pic) {
-					$scope.pics.push(pic);
-				});
-				// Verifica possibilidade de haver mais fotos nessas coordenadas e novamente atualiza parâmetros
-				$scope.hasMore = response.data.length == 20;
-				$scope.searchParams.max_timestamp = response.data[response.data.length-1].created_time-100;
-			});
-		};
-	}]);
+		return instagramData;
+	})
 })();

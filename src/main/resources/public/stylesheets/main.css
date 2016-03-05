@@ -1,5 +1,5 @@
-.map-container {
-    background-color: #ccf;
+#map-container {
+    padding: 0;
 }
 .angular-google-map-container { height: 400px; }
 .image {
@@ -25,7 +25,7 @@
     background-color:#000;
     color: gold;
     opacity: 0.80;
-    top: 4px;
+    top: 5px;
     text-align: right;
     padding: 5px;
 }
