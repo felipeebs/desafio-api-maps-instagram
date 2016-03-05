@@ -7,7 +7,7 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="navbar-right">
-        <a href="https://github.com/felipeebs/desafio-sodet" target="_blank"><span class="glyphicon glyphicon-hand-right"></span> GitHub</a>
+        <a href="https://github.com/felipeebs/desafio-api-maps-instagram" target="_blank"><span class="glyphicon glyphicon-hand-right"></span> GitHub</a>
       </li>
     </ul>
   </div>
