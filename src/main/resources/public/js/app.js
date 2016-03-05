@@ -34,18 +34,17 @@
 			}
 		};
 
+		/*// Por algum motivo quebra o funcionamento dos listeners do mapa
 		// Aguarda inicialização do mapa e carrega geolocalização do navegador, se disponível
-		uiGmapIsReady.promise(1).then(function(instances) {
-			instances.forEach(function(inst) {
-				if (navigator.geolocation) {
-					navigator.geolocation.getCurrentPosition(function (location) {
-						var lat = location.coords.latitude;
-						var lng = location.coords.longitude;
-						$scope.centerMap(lat, lng);
-					});
-				}
-			})
-		});
+		uiGmapIsReady.promise().then(function(maps) {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function (location) {
+					var lat = location.coords.latitude;
+					var lng = location.coords.longitude;
+					$scope.centerMap(lat, lng);
+				});
+			}
+		});*/
 
 		// Movido para reutilização (geolocalização e evento click)
 		// Centraliza o mapa nas coordenadas recebidas

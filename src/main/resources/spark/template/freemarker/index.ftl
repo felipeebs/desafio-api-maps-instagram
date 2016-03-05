@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="map">
 <head>
+    <title>Teste GMaps+Instagram</title>
     <#include "header.ftl">
 </head>
 
