@@ -14,7 +14,10 @@ public final class DB {
     public static DB getInstance() throws URISyntaxException {
         if (instance == null) {
             instance = new DB();
-            sql2o = new Sql2o(DatabaseUrl.extract().jdbcUrl(), DatabaseUrl.extract().username(), DatabaseUrl.extract().password());
+            String dbUrl = DatabaseUrl.extract().jdbcUrl();
+            String dbUser = DatabaseUrl.extract().username();
+            String dbPass = DatabaseUrl.extract().password();
+            sql2o = new Sql2o(dbUrl, dbUser, dbPass);
         }
         return instance;
     }

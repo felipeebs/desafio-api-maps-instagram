@@ -34,11 +34,11 @@ public class User {
     public static User auth(String login, String password) throws URISyntaxException {
         String sql = "SELECT id,user FROM users WHERE login=:login AND password=:password";
         try (Connection con = DB.getInstance().getSql2o().open()) {
-            List<User> results = con.createQuery(sql)
+            User result = con.createQuery(sql)
                     .addParameter("login", login)
                     .addParameter("password", password)
-                    .executeAndFetch(User.class);
-            return results.size() > 0 ? results.get(0) : null;
+                    .executeAndFetchFirst(User.class);
+            return result;
         }
     }
 }
