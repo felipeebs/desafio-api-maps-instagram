@@ -34,7 +34,7 @@
 			}
 		};
 
-		/*// Por algum motivo quebra o funcionamento dos listeners do mapa
+		// Por algum motivo quebra o funcionamento dos listeners do mapa
 		// Aguarda inicialização do mapa e carrega geolocalização do navegador, se disponível
 		uiGmapIsReady.promise().then(function(maps) {
 			if (navigator.geolocation) {
@@ -44,16 +44,14 @@
 					$scope.centerMap(lat, lng);
 				});
 			}
-		});*/
+		});
 
 		// Movido para reutilização (geolocalização e evento click)
 		// Centraliza o mapa nas coordenadas recebidas
 		$scope.centerMap = function(lat, lng) {
-			$scope.map = {
-				center: {
-					latitude: lat,
-					longitude: lng
-				}
+			$scope.map.center = {
+				latitude: lat,
+				longitude: lng
 			};
 			$scope.$apply();
 		}
