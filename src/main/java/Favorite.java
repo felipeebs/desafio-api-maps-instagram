@@ -12,6 +12,9 @@ public class Favorite {
     private String mediaId;
     private String title;
     private String comment;
+    private String thumbUrl;
+    private String standardUrl;
+    private String uploader;
 
     public long getUserId() {
         return userId;
@@ -43,6 +46,30 @@ public class Favorite {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(String thumbUrl) {
+        this.thumbUrl = thumbUrl;
+    }
+
+    public String getStandardUrl() {
+        return standardUrl;
+    }
+
+    public void setStandardUrl(String standardUrl) {
+        this.standardUrl = standardUrl;
+    }
+
+    public String getUploader() {
+        return uploader;
+    }
+
+    public void setUploader(String uploader) {
+        this.uploader = uploader;
     }
 
     public static List<Favorite> getAllByUser(long userId) throws URISyntaxException {
