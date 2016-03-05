@@ -35,6 +35,9 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <button ng-show="hasMore" ng-click="loadMore()">Caregar mais...</button>
+                    </div>
                 </div>
             </div>
         </div>

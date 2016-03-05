@@ -5,7 +5,7 @@ import org.sql2o.Sql2o;
 
 /**
  * Singleton para acesso ao banco de dados via Sql2o
- * @author Bunto
+ * @author Felipe.S
  */
 public final class DB {
     private static DB instance;

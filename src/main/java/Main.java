@@ -6,6 +6,10 @@ import spark.ModelAndView;
 import spark.Session;
 import static spark.Spark.get;
 
+/**
+ * Classe principal para lidar cm requisições do Spark
+ * @author Felipe.S
+ */
 public class Main {
 
     private String clientId = "7c37aa0576f344fda37cc3330d424e1f";
