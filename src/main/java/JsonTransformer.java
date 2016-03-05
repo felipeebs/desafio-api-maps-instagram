@@ -2,7 +2,7 @@ import com.google.gson.Gson;
 import spark.ResponseTransformer;
 
 /**
- *
+ * Helper para retornar em formato JSON pelo Spark
  * @author Felipe.S
  */
 public class JsonTransformer implements ResponseTransformer {

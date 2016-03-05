@@ -9,7 +9,7 @@
 
     <#include "nav.ftl">
 
-<div ng-controller="AppController">
+<div ng-controller="MapController">
     <div class="container-fluid">
         <div class="row">
             <div id="map-container" class="col-xs-4">
@@ -18,6 +18,12 @@
                 </ui-gmap-google-map>
             </div>
             <div class="col-xs-8">
+                <div class="alert alert-info" role="alert" ng-if="!searchParams.lat">
+                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                    Clique no <strong>mapa</strong> para carregar fotos.</div>
+                <div class="alert alert-warning" role="alert" ng-show="noPics">
+                    <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
+                    Parece que ningu&eacute;m enviou fotos daqui... :(</div>
                 <div class="row">
                     <div class="col-xs-3" ng-repeat="pic in pics">
                         <div class="thumbnail">

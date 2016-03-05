@@ -1,6 +1,4 @@
-
 import java.net.URISyntaxException;
-import java.util.List;
 import org.sql2o.Connection;
 
 /**
@@ -80,16 +78,6 @@ public class Favorite {
         this.thumbUrl = thumbUrl;
         this.standardUrl = standardUrl;
         this.uploader = uploader;
-    }
-
-    public static List<Favorite> getAllByUser(long userId) throws URISyntaxException {
-        String sql = "SELECT * FROM favorites WHERE userId=:userId";
-        try (Connection con = DB.getInstance().getSql2o().open()) {
-            List<Favorite> results = con.createQuery(sql)
-                    .addParameter("userId", userId)
-                    .executeAndFetch(Favorite.class);
-            return results;
-        }
     }
 
     public static Favorite get(long userId, String mediaId) throws URISyntaxException {

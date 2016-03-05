@@ -41,4 +41,14 @@ public class User {
             return result;
         }
     }
+
+    public static List<Favorite> getFavorites(long userId) throws URISyntaxException {
+        String sql = "SELECT * FROM favorites WHERE userId=:userId";
+        try (Connection con = DB.getInstance().getSql2o().open()) {
+            List<Favorite> results = con.createQuery(sql)
+                    .addParameter("userId", userId)
+                    .executeAndFetch(Favorite.class);
+            return results;
+        }
+    }
 }

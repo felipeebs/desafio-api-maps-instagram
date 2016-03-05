@@ -1,10 +1,11 @@
 (function() {
 	var app = angular.module('map', ['ngResource', 'uiGmapgoogle-maps']);
 
-	app.controller('AppController', ['$scope', 'uiGmapIsReady', 'instagramService', function($scope, uiGmapIsReady, instagramService){
+	app.controller('MapController', ['$scope', 'uiGmapIsReady', 'instagramService', function($scope, uiGmapIsReady, instagramService){
 
 		// Inicialização de variáveis de escopo
 		$scope.pics = [];
+		$scope.noPics = false;
 		$scope.hasMore = false;
 		$scope.marker = { id: 0 }
 		$scope.searchParams = { distance: 1000 };
@@ -67,8 +68,12 @@
 				$scope.pics = [];
 				$scope.pics = response.data;
 				// Verifica possibilidade de haver mais fotos nessas coordenadas e atualiza parâmetros
-				$scope.hasMore = response.data.length == 20;
-				$scope.searchParams.max_timestamp = response.data[response.data.length-1].created_time-100;
+				var len = response.data.length;
+				$scope.noPics = len == 0
+				if (len > 0) {
+					$scope.hasMore = len == 20;
+					$scope.searchParams.max_timestamp = response.data[len-1].created_time-100;
+				}
 				//TODO: esconder loading
 			});
 		};
@@ -80,16 +85,19 @@
 					$scope.pics.push(pic);
 				});
 				// Verifica possibilidade de haver mais fotos nessas coordenadas e novamente atualiza parâmetros
-				$scope.hasMore = response.data.length == 20;
-				$scope.searchParams.max_timestamp = response.data[response.data.length-1].created_time-100;
+				var len = response.data.length;
+				if (len > 0) {
+					$scope.hasMore = response.data.length == 20;
+					$scope.searchParams.max_timestamp = response.data[len-1].created_time-100;
+				}
 			});
 		};
 	}]);
 
-	app.factory('instagramService', function ($resource){
+	app.factory('instagramService', function ($resource) {
 		// Resource para pesquisar na API do Instagram
 		var access_token = '6678174.467ede5.205a03ebc4b74d4082823781c3149575';
-		var instagramData = $resource('https://api.instagram.com/v1/media/:action', null, {
+		var instagramResource = $resource('https://api.instagram.com/v1/media/:action', null, {
 			search:{
 				method: 'JSONP',
 				params: {
@@ -112,6 +120,59 @@
 				}
 			}
 		});
-		return instagramData;
-	})
+		return instagramResource;
+	});
+
+	app.factory('userService', function ($resource) {
+		// Resource para interagir com o back-end
+		var userResource = $resource('/user/:action', null, {
+			login: {
+				method: 'POST',
+				params: {
+					action: 'auth',
+				}
+			},
+			getFavorites: {
+				method: 'GET',
+				isArray: true,
+				params: {
+					action: '@id/favorites',
+				}
+			}
+		});
+		return userResource;
+	});
+
+	app.factory('favoriteService', function ($resource) {
+		// Resource para interagir com o back-end
+		var userResource = $resource('/favorite/:action', null, {
+			get: {
+				method: 'GET',
+				params: {
+					action: 'single',
+					userId: '@userId',
+					mediaId: '@mediaId'
+				}
+			},
+			add: {
+				method: 'POST',
+				params: {
+					action: 'add'
+				}
+			},
+			edit: {
+				method: 'PUT',
+				params: {
+					action: 'edit'
+				}
+			},
+			remove: {
+				method: 'DELETE',
+				params: {
+					action: 'remove'
+				}
+			}
+		});
+		return userResource;
+	});
 })();

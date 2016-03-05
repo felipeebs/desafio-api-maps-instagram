@@ -1,4 +1,3 @@
-
 import com.heroku.sdk.jdbc.DatabaseUrl;
 import java.net.URISyntaxException;
 import org.sql2o.Sql2o;

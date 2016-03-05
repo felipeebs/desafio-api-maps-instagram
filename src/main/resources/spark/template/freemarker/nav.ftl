@@ -7,7 +7,7 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="navbar-right">
-        <a href="https://devcenter.heroku.com"><span class="glyphicon glyphicon-book"></span> GitHub</a>
+        <a href="https://devcenter.heroku.com"><span class="glyphicon glyphicon-hand-right"></span> GitHub</a>
       </li>
     </ul>
   </div>

@@ -1,26 +1,22 @@
-import com.heroku.sdk.jdbc.DatabaseUrl;
+import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Map;
 import static spark.Spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
 import spark.ModelAndView;
-import spark.Session;
 import static spark.Spark.get;
 
 /**
- * Classe principal para lidar cm requisicoes do Spark
+ * Classe principal para lidar com requisicoes do Spark
  * @author Felipe.S
  */
 public class Main {
 
-    private String clientId = "7c37aa0576f344fda37cc3330d424e1f";
-    private String clientSecret = "d4c0a274bb5b4572a41733a2c1484a1d";
-    private String redirect_uri = "http://localhost:5000/codeCallback";
-    
     public static void main(String[] args) {
 
         port(Integer.valueOf(System.getenv("PORT")));
         staticFileLocation("/public");
+        Gson gson = new Gson();
 
         get("/secret", (req, res) -> {
             return "<h1>You have found the secret level!</h1><br /><p>But there's nothing here...</p>";
@@ -31,14 +27,40 @@ public class Main {
             return new ModelAndView(attributes, "index.ftl");
         }, new FreeMarkerEngine());
 
-        get("/user/:userId/favorites", "application/json", (req, res) -> {
+        post("/user/auth", (req, res) -> {
+            User user = User.auth(req.params("login"), req.params("pass"));
+            return user;
+        }, new JsonTransformer());
+
+        get("/user/:userId/favorites", (req, res) -> {
             long id = Long.valueOf(req.params(":userId"));
             try {
-                return Favorite.getAllByUser(id);
+                return User.getFavorites(id);
             } catch (Exception e) {
                 e.printStackTrace(System.err);
             }
             return null;
+        }, new JsonTransformer());
+
+        get("/favorite/single", (req, res) -> {
+            long userId = Long.valueOf(req.params("userId"));
+            String mediaId = req.params("mediaId");
+            return Favorite.get(userId, mediaId);
+        }, new JsonTransformer());
+
+        post("/favorite/add", "application/json", (req, res) -> {
+            Favorite obj = gson.fromJson(req.body(), Favorite.class);
+            return Favorite.save(obj);
+        }, new JsonTransformer());
+
+        put("/favorite/edit", "application/json", (req, res) -> {
+            Favorite obj = gson.fromJson(req.body(), Favorite.class);
+            return Favorite.update(obj);
+        }, new JsonTransformer());
+
+        delete("/favorite/delete", "application/json", (req, res) -> {
+            Favorite obj = gson.fromJson(req.body(), Favorite.class);
+            return Favorite.delete(obj.getUserId(), obj.getMediaId());
         }, new JsonTransformer());
     }
 
