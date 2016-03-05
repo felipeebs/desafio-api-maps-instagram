@@ -33,15 +33,11 @@ public class Main {
 
         get("/user/:userId/favorites", "application/json", (req, res) -> {
             long id = Long.valueOf(req.params(":userId"));
-            //return Favorite.getAllByUser(id);
-            Map<String, String> m = new HashMap<String, String>();
             try {
-                m.put("url", DatabaseUrl.extract().jdbcUrl());
-                return m;
+                return Favorite.getAllByUser(id);
             } catch (Exception e) {
-                e.printStackTrace(System.err);
+                return e;
             }
-            return m;
         }, new JsonTransformer());
     }
 
